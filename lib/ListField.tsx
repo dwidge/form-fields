@@ -6,7 +6,7 @@ import React from "react";
 import { Button, Stack, Paper, Box, ButtonGroup } from "@mui/material";
 import { prependItem, removeItem, upsertItem } from "./utils/array";
 import styled from "styled-components";
-import { Container, Draggable } from "@edorivai/react-smooth-dnd";
+import { Container, Draggable } from "react-smooth-dnd";
 import { arrayMoveImmutable } from "array-move";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";

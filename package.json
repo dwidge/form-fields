@@ -19,7 +19,6 @@
   "license": "BSL-1.0",
   "devDependencies": {
     "@dwidge/buildy": "^0.1.2",
-    "@edorivai/react-smooth-dnd": "github:edorivai/react-smooth-dnd",
     "@mui/material": "^5.13.2",
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/x-date-pickers": "^6.5.0",
@@ -29,17 +28,18 @@
     "array-move": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-smooth-dnd": "^0.11.1",
     "styled-components": "^5.3.9",
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
-    "array-move": "^4.0.0",
-    "@edorivai/react-smooth-dnd": "github:edorivai/react-smooth-dnd",
     "@mui/material": "^5.13.2",
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/x-date-pickers": "^6.5.0",
+    "array-move": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-smooth-dnd": "^0.11.1",
     "styled-components": "^5.3.9"
   },
   "overrides": {
