@@ -4,19 +4,30 @@
 
 import React, { useEffect, useState, useRef } from "react";
 
-export const DebounceField = ({
+export const DebounceField = <T,>({
   value,
   onChange,
   timeout = 1000,
-  children,
+  render,
+}: {
+  value: T;
+  onChange: (v: T) => void;
+  timeout?: number;
+  render: ({
+    value,
+    onChange,
+  }: {
+    value: T;
+    onChange: (v: T) => void;
+  }) => React.ReactElement;
 }) => {
   const [v, setv] = useState(value);
-  const timer = useRef(null);
+  const timer = useRef<number | undefined>();
 
   useEffect(() => {
     setv(value);
   }, [value]);
-  return children({
+  return render({
     value: v,
     onChange: (v) => {
       setv(v);

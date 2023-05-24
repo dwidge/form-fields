@@ -7,24 +7,24 @@ import MuiTextField, { TextFieldProps } from "@mui/material/TextField";
 import { DebounceField } from "./DebounceField";
 
 export const TextFieldB = ({
-  value,
+  value = "",
   onChange,
   ...opts
 }: Omit<TextFieldProps, "onChange"> & {
-  value: string;
-  onChange: (v: string) => void;
+  value?: string;
+  onChange?: (v: string) => void;
 }) => {
   return (
     <MuiTextField
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange && onChange(e.target.value)}
       {...opts}
     />
   );
 };
 
 export function TextField({
-  value,
+  value = "",
   onChange,
   ...props
 }: Omit<TextFieldProps, "onChange"> & {
@@ -32,10 +32,11 @@ export function TextField({
   onChange: (v: string) => void;
 }) {
   return (
-    <DebounceField {...{ value, onChange }}>
-      {({ value, onChange }) => (
+    <DebounceField
+      {...{ value, onChange }}
+      render={({ value, onChange }) => (
         <TextFieldB {...{ value, onChange, ...props }} />
       )}
-    </DebounceField>
+    />
   );
 }
