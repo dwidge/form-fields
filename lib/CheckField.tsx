@@ -3,10 +3,18 @@
 // https://www.boost.org/LICENSE_1_0.txt
 
 import React from "react";
-import Checkbox from "@mui/material/Checkbox";
+import Checkbox, { CheckboxProps } from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export function CheckField({ value, onChange, ...opts }) {
+export function CheckField({
+  value,
+  onChange,
+  label,
+  ...opts
+}: Omit<CheckboxProps, "onChange"> & {
+  label?: string;
+  onChange: (v: boolean) => void;
+}) {
   return (
     <FormControlLabel
       control={
@@ -16,7 +24,7 @@ export function CheckField({ value, onChange, ...opts }) {
           {...opts}
         />
       }
-      label={opts.label}
+      label={label}
     />
   );
 }

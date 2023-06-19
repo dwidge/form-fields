@@ -4,10 +4,19 @@
 
 import React from "react";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-export function SelectField({ items, value, onChange, ...opts }) {
-  const list = Array.isArray(items)
+export function SelectField({
+  items,
+  value,
+  onChange,
+  ...opts
+}: Omit<TextFieldProps, "onChange"> & {
+  items: string[] | { [i: string]: string };
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const list: [i: string, v: string][] = Array.isArray(items)
     ? items.map((v) => [v, v])
     : Object.entries(items);
 

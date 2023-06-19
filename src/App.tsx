@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ListField } from "../lib/ListField";
 import { TextField } from "../lib/TextField";
-import { Center, Fill, Relative } from "Flex";
+import { Center, Fill } from "Flex";
 
 const App: React.FC<{}> = () => {
-  const [value, onChange] = useState([]);
+  const [value, onChange] = useState<
+    {
+      id: string | number;
+      text: string;
+    }[]
+  >([]);
   return (
     <Background>
       <Foreground>
@@ -16,10 +21,10 @@ const App: React.FC<{}> = () => {
                 label: "ListField",
                 value,
                 onChange,
-                defaultValue: {
-                  id: 0,
+                defaultValue: () => ({
+                  id: (Math.random() * 1e6) | 0,
                   text: "text",
-                },
+                }),
               }}
             >
               {({ onChange, value }) => (
@@ -40,14 +45,8 @@ const App: React.FC<{}> = () => {
   );
 };
 
-const Abs = styled.div`
-  position: absolute;
-  height: 100%;
-`;
-
 const Foreground = styled(Fill)`
   background-color: cyan;
-  height2: 80%;
   min-height: 200px;
   min-width: 200px;
   max-width: 500px;

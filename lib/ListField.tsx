@@ -11,19 +11,28 @@ import { arrayMoveImmutable } from "array-move";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
-export function ListField({
+type Render<T> = (props: {
+  value: T;
+  onChange: (v: T) => void;
+}) => React.ReactNode;
+
+export function ListField<T extends { id: string | number }>({
   label,
   value,
   defaultValue,
   onChange,
-  onClick = null,
+  onClick,
   children,
+}: {
+  label?: string;
+  defaultValue: () => T;
+  value: T[];
+  onChange: (v: T[]) => void;
+  onClick?: (v: T) => void;
+  children: Render<T>;
 }) {
   if (value.some(({ id }) => id == null))
     console.warn("ListField", "Missing id");
-  const update = (item) => {
-    onChange(upsertItem(value)(item));
-  };
   const add = () => {
     const newValue =
       typeof defaultValue === "function"
@@ -33,12 +42,6 @@ export function ListField({
   };
   const clear = () => {
     onChange([]);
-  };
-  const del = (item) => {
-    onChange(removeItem(value)(item));
-  };
-  const onDrop = ({ removedIndex, addedIndex }) => {
-    onChange(arrayMoveImmutable(value, removedIndex, addedIndex));
   };
 
   return (
@@ -55,15 +58,28 @@ export function ListField({
         </ButtonGroup>
       </Stack>
       <List>
-        <Container lockAxis="y" onDrop={onDrop}>
-          {value.map((item, i) => (
+        <Container
+          lockAxis="y"
+          onDrop={({ removedIndex, addedIndex }) => {
+            removedIndex != null &&
+              addedIndex != null &&
+              onChange(arrayMoveImmutable(value, removedIndex, addedIndex));
+          }}
+        >
+          {value.map((item) => (
             <Draggable key={item.id}>
               <ListItem>
                 <Paper sx={{ width: 1 }}>
                   <Stack direction="row">
-                    {del ? (
-                      <Button onClick={(e) => del(item)}>&times;</Button>
-                    ) : null}
+                    {
+                      <Button
+                        onClick={() => {
+                          onChange(removeItem(value)(item));
+                        }}
+                      >
+                        &times;
+                      </Button>
+                    }
                     <Box
                       p={1}
                       {...(onClick
@@ -76,7 +92,9 @@ export function ListField({
                     >
                       {children({
                         value: item,
-                        onChange: update,
+                        onChange: (item) => {
+                          onChange(upsertItem(value)(item));
+                        },
                       })}
                     </Box>
                   </Stack>
