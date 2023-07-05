@@ -4,7 +4,7 @@
 
 import React from "react";
 import { Button, Stack, Paper, Box, ButtonGroup } from "@mui/material";
-import { prependItem, removeItem, upsertItem } from "./utils/array";
+import { removeItem, upsertItem } from "./utils/array";
 import styled from "styled-components";
 import { Container, Draggable } from "react-smooth-dnd";
 import { arrayMoveImmutable } from "array-move";
@@ -38,7 +38,7 @@ export function ListField<T extends { id: string | number }>({
       typeof defaultValue === "function"
         ? defaultValue()
         : { ...defaultValue, id: value.length };
-    onChange(prependItem(value)(newValue));
+    onChange([...value, newValue]);
   };
   const clear = () => {
     onChange([]);
