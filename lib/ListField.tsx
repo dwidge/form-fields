@@ -17,7 +17,7 @@ type Render<T> = (props: {
 }) => React.ReactNode;
 
 export function ListField<T extends { id: string | number }>({
-  label,
+  label = "",
   value,
   defaultValue,
   onChange,
@@ -33,13 +33,13 @@ export function ListField<T extends { id: string | number }>({
 }) {
   if (value.some(({ id }) => id == null))
     console.warn("ListField", "Missing id");
-  const add = () => {
-    const newValue =
-      typeof defaultValue === "function"
-        ? defaultValue()
-        : { ...defaultValue, id: value.length };
-    onChange([...value, newValue]);
-  };
+
+  const make = () =>
+    typeof defaultValue === "function"
+      ? defaultValue()
+      : { ...defaultValue, id: value.length };
+  const prepend = () => onChange([make(), ...value]);
+  const append = () => onChange([...value, make()]);
   const clear = () => {
     onChange([]);
   };
@@ -47,9 +47,9 @@ export function ListField<T extends { id: string | number }>({
   return (
     <Stack gap={2} sx={{ flex: "auto", height: "100%" }}>
       <Stack gap={2} direction="row" justifyContent="space-between">
-        <H3>{label}</H3>
+        <label>{label}</label>
         <ButtonGroup>
-          <Button variant="contained" onClick={add}>
+          <Button variant="contained" onClick={prepend}>
             +
           </Button>
           <Button variant="contained" onClick={clear}>
@@ -104,6 +104,17 @@ export function ListField<T extends { id: string | number }>({
           ))}
         </Container>
       </List>
+      <Stack gap={2} direction="row" justifyContent="space-between">
+        <label></label>
+        <ButtonGroup>
+          <Button variant="contained" onClick={append}>
+            +
+          </Button>
+          <Button variant="contained" onClick={clear}>
+            &times;
+          </Button>
+        </ButtonGroup>
+      </Stack>
     </Stack>
   );
 }

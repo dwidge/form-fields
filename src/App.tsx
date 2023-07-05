@@ -23,7 +23,7 @@ const App: React.FC<{}> = () => {
                 onChange,
                 defaultValue: () => ({
                   id: (Math.random() * 1e6) | 0,
-                  text: "text",
+                  text: "text " + value.length,
                 }),
               }}
             >
