@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ListField } from "../lib/ListField";
 import { TextField } from "../lib/TextField";
 import { Center, Fill } from "Flex";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
 const App: React.FC<{}> = () => {
   const [value, onChange] = useState<
@@ -14,32 +15,37 @@ const App: React.FC<{}> = () => {
   return (
     <Background>
       <Foreground>
-        <>
-          <>
-            <ListField
-              {...{
-                label: "ListField",
-                value,
-                onChange,
-                defaultValue: () => ({
-                  id: (Math.random() * 1e6) | 0,
-                  text: "text " + value.length,
-                }),
-              }}
-            >
-              {({ onChange, value }) => (
-                <TextField
-                  fullWidth
-                  {...{
-                    value: value.text,
-                    onChange: (text) => onChange({ ...value, text }),
-                    label: "TextField",
-                  }}
-                />
-              )}
-            </ListField>
-          </>
-        </>
+        <ThemeProvider
+          theme={createTheme({
+            palette: {
+              mode: "dark",
+            },
+          })}
+        >
+          <CssBaseline />
+          <ListField
+            {...{
+              label: "ListField",
+              value,
+              onChange,
+              defaultValue: () => ({
+                id: (Math.random() * 1e6) | 0,
+                text: "text " + value.length,
+              }),
+            }}
+          >
+            {({ onChange, value }) => (
+              <TextField
+                fullWidth
+                {...{
+                  value: value.text,
+                  onChange: (text) => onChange({ ...value, text }),
+                  label: "TextField",
+                }}
+              />
+            )}
+          </ListField>
+        </ThemeProvider>
       </Foreground>
     </Background>
   );
