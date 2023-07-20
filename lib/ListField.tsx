@@ -73,6 +73,7 @@ export function ListField<T extends { id: string | number }>({
       <List>
         <Container
           lockAxis="y"
+          dragHandleSelector=".dragHandle"
           onDrop={({ removedIndex, addedIndex }) => {
             removedIndex != null &&
               addedIndex != null &&
@@ -91,8 +92,9 @@ export function ListField<T extends { id: string | number }>({
                           onClick={() => {
                             onChange(removeItem(value, byKey)(item));
                           }}
+                          className="dragHandle"
                         >
-                          &times;
+                          &times; &#x2630;
                         </Button>
                       }
                       <Box
